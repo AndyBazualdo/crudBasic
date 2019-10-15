@@ -19,9 +19,16 @@ public class DBManager {
     }
 
     public boolean addEmployee (Employee employee) {
-        boolean result = dbQuery.insert(employee.getName(), employee.getLastName(), employee.getNickName(),
+        int result = dbQuery.insert(employee.getName(), employee.getLastName(), employee.getNickName(),
                 employee.getId(), employee.getPosition(), employee.getArea(), employee.getStartDate(), employee.getSalary());
-        return result;
+        boolean res;
+        if (result > 0){
+            res = true;
+        }
+        else {
+            res = false;
+        }
+        return res;
     }
 
     public Employee getEmployee (int id) throws SQLException {
@@ -69,13 +76,27 @@ public class DBManager {
     }
 
     public boolean deleteEmployee (int id) throws SQLException {
-        boolean result = dbQuery.delete(id);
-        return result;
+        int result = dbQuery.delete(id);
+        boolean res;
+        if (result > 0){
+            res = true;
+        }
+        else {
+            res = false;
+        }
+        return res;
     }
     public boolean updateEmployee(Employee employee){
+        int result = dbQuery.update(employee.getName(), employee.getLastName(), employee.getNickName(),
+        employee.getId(), employee.getPosition(), employee.getArea(), employee.getStartDate(), employee.getSalary());
 
-        boolean result = dbQuery.update(employee.getName(), employee.getLastName(), employee.getNickName(),
-                employee.getId(), employee.getPosition(), employee.getArea(), employee.getStartDate(), employee.getSalary());
-        return result;
+        boolean result2;
+        if (result>0){
+            result2 = true;
+        }
+        else {
+            result2 = false;
+        }
+        return result2;
     }
 }

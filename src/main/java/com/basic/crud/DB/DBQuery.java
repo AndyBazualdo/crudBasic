@@ -13,9 +13,9 @@ public class DBQuery {
     public DBQuery() {
         this.connection = DBConnection.getInstance().getConnection();
     }
-    public boolean insert (String name, String lastName, String nickName, int id, String position, String area, String startDate, double salary){
+    public int insert (String name, String lastName, String nickName, int id, String position, String area, String startDate, double salary){
         String sql = "insert into employees values( ? ,  ? , ? , ? , ? , ? , ? , ? );" ;
-        boolean query = false;
+        int query = 0;
         try (PreparedStatement prep = connection.prepareStatement(sql)) {
             prep.setString(1, String.valueOf(id));
             prep.setString(2, name);
@@ -25,18 +25,17 @@ public class DBQuery {
             prep.setString(6, area);
             prep.setString(7, String.valueOf(startDate));
             prep.setString(8, String.valueOf(salary));
-            query = prep.execute();
-            System.out.println("testtttttttt");
+            query = prep.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return query;
     }
-    public boolean delete (int id){
+    public int delete (int id){
         String sql = "DELETE FROM employees WHERE id = " + id + ";" ;
-        boolean query = false;
+        int query = 0;
         try (PreparedStatement prep = connection.prepareStatement(sql)) {
-            query = prep.execute();
+            query = prep.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,11 +66,10 @@ public class DBQuery {
             e.printStackTrace();
             return rs;
         }
-
     }
-    public boolean update (String name, String lastName, String nickName, int id, String position, String area, String startDate, double salary){
+    public int update (String name, String lastName, String nickName, int id, String position, String area, String startDate, double salary){
         String sql = "UPDATE employees SET id = ? , name = ? , lastName = ? , nickName = ? , position = ? , area = ? , startDate = ? , salary = ? WHERE id = " + id + ";" ;
-        boolean query = false;
+        int rs = 0;
         try (PreparedStatement prep = connection.prepareStatement(sql)) {
             prep.setString(1, String.valueOf(id));
             prep.setString(2, name);
@@ -81,10 +79,10 @@ public class DBQuery {
             prep.setString(6, area);
             prep.setString(7, String.valueOf(startDate));
             prep.setString(8, String.valueOf(salary));
-            query = prep.execute();
+            rs = prep.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return query;
+        return rs;
     }
 }
